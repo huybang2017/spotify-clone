@@ -1,5 +1,3 @@
-import React from "react";
-
 export default function NotFound() {
   return (
     <div className="flex flex-col items-center justify-center h-full text-neutral-400">
@@ -7,4 +5,4 @@ export default function NotFound() {
       <p>Page not found.</p>
     </div>
   );
-} 
+}

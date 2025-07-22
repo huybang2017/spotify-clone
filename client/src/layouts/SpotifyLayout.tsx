@@ -1,4 +1,3 @@
-import React from "react";
 import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
 import PlayerBar from "../components/PlayerBar";
@@ -18,7 +17,7 @@ export default function SpotifyLayout() {
         <Sidebar />
         {/* --- Right Column: Main Content --- */}
         <main className="flex-1 bg-[#121212] rounded-lg overflow-y-auto">
-          <div className="p-6">
+          <div>
             <Outlet />
           </div>
         </main>
