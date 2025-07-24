@@ -144,20 +144,16 @@ export default function PlayingViewPanel() {
       </div>
 
       {isExpanded ? (
-        <div className="flex flex-1 gap-6">
-          {/* Left side - Video/Image */}
-          <div className="flex-1 bg-neutral-900 rounded-lg overflow-hidden flex items-center justify-center">
-            <img
-              src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
-              alt="Sơn Tùng M-TP"
-              className="w-full h-full object-contain"
-            />
-          </div>
+        <div className="flex-1 relative rounded-lg overflow-hidden">
+          <div className="absolute inset-0 bg-black/60" />
+          <img
+            src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
+            alt="Sơn Tùng M-TP"
+            className="w-auto h-4/5 object-contain relative z-10 mx-auto my-auto"
+          />
         </div>
       ) : (
-        // Original non-expanded layout
         <>
-          {/* About the artist */}
           <div className="bg-neutral-900 p-4 rounded-md mb-6">
             <div className="text-xs text-neutral-400 mb-3">
               About the artist

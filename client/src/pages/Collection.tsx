@@ -9,30 +9,15 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
+import { PLAYLISTS_DATA, USER_DATA, IMAGES } from "../lib/constants";
+import { Link } from "react-router-dom";
 
-const fakeSongs = [
-  {
-    id: 1,
-    title: "THERE'S NO ONE AT ALL",
-    artist: "Sơn Tùng M-TP",
-    album: "THERE'S NO ONE AT ALL",
-    dateAdded: "May 5, 2022",
-    duration: "2:52",
-  },
-  {
-    id: 2,
-    title: "Chơi Đồ",
-    artist: "RPT MCK, Wxrdie, Sony Tran",
-    album: "Chơi Đồ",
-    dateAdded: "May 2, 2022",
-    duration: "2:07",
-  },
-  // Add more songs here...
-];
+// Using the Liked Songs playlist (second playlist in the array)
+const likedSongsPlaylist = PLAYLISTS_DATA[1];
 
 export default function Collection() {
   return (
-    <div className="min-h-screen  text-white">
+    <div className="min-h-screen text-white">
       <div className="flex items-end gap-6 p-8 bg-gradient-to-b from-[#5b3cac] to-[#261b41]">
         <div className="w-60 h-60 rounded-sm *:shadow-lg overflow-hidden">
           <div className="w-full h-full bg-gradient-to-br from-blue-900 via-violet-400 to-white flex items-center justify-center">
@@ -48,16 +33,22 @@ export default function Collection() {
         </div>
         <div>
           <p className="text-white text-xs mb-5">Playlist</p>
-          <h1 className="text-8xl font-bold mb-5">Liked Songs</h1>
+          <h1 className="text-8xl font-bold mb-5">
+            {likedSongsPlaylist.title}
+          </h1>
           <div className="flex items-center justify-start">
-            <Button
-              variant="link"
-              className="p-0 font-bold text-sm cursor-pointer"
-            >
-              young wolf
-            </Button>
+            <Link to="/collection">
+              <Button
+                variant="link"
+                className="p-0 font-bold text-sm cursor-pointer hover:underline"
+              >
+                {USER_DATA.name}
+              </Button>
+            </Link>
             <span className="bg-neutral-400 rounded-full mx-2 w-1 h-1"></span>
-            <span className="text-neutral-400 text-sm">17 songs</span>
+            <span className="text-neutral-400 text-sm">
+              {likedSongsPlaylist.songCount} songs
+            </span>
           </div>
         </div>
       </div>
@@ -93,7 +84,7 @@ export default function Collection() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {fakeSongs.map((song, index) => (
+              {likedSongsPlaylist.songs.map((song, index) => (
                 <TableRow
                   key={song.id}
                   className="group hover:bg-neutral-800 transition-colors"
@@ -110,22 +101,35 @@ export default function Collection() {
                   <TableCell className="flex items-center justify-start gap-3">
                     <div>
                       <img
-                        src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
+                        src={song.image || IMAGES.DEFAULT_ALBUM_COVER}
                         alt="#"
                         className="w-10 h-10"
                       />
                     </div>
                     <div>
-                      <p className="font-bold text-white">{song.title}</p>
-                      <p className="text-neutral-400 text-sm">{song.artist}</p>
+                      <Link to={`/lyric/${song.id}`}>
+                        <p className="font-bold text-white hover:underline">
+                          {song.title}
+                        </p>
+                      </Link>
+                      <Link to={`/artist/${song.id}`}>
+                        <p className="text-neutral-400 text-sm hover:underline hover:text-white">
+                          {song.artist}
+                        </p>
+                      </Link>
                     </div>
                   </TableCell>
 
                   <TableCell className="text-neutral-400">
-                    {song.album}
+                    <Link
+                      to={`/album/${song.id}`}
+                      className="hover:underline hover:text-white"
+                    >
+                      {song.title}
+                    </Link>
                   </TableCell>
                   <TableCell className="text-neutral-400">
-                    {song.dateAdded}
+                    {song.duration}
                   </TableCell>
                   <TableCell className="text-neutral-400">
                     {song.duration}

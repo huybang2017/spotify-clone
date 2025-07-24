@@ -11,13 +11,13 @@ export default function SpotifyLayout() {
   return (
     <div className="dark h-screen w-screen flex flex-col bg-black text-white overflow-hidden">
       <Header />
-      <div className="flex-1 flex gap-2 p-2 overflow-hidden">
+      <div className="flex-1 flex flex-col md:flex-row gap-0 md:gap-2 p-0 md:p-2 overflow-hidden">
         {/* Sidebar hiển thị khi không mở rộng panel */}
         {(!isOpen || !isExpanded) && <Sidebar />}
 
         {/* Main content hiển thị khi không mở PlayingViewPanel hoặc không mở rộng */}
         {(!isOpen || !isExpanded) && (
-          <main className="flex-1 bg-[#121212] rounded-lg overflow-y-auto">
+          <main className="flex-1 bg-[#121212] md:rounded-lg overflow-y-auto">
             <div>
               <Outlet />
             </div>

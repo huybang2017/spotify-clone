@@ -11,38 +11,17 @@ import {
 } from "../components/ui/table";
 import { useColor } from "color-thief-react";
 import tinycolor from "tinycolor2";
+import { PLAYLISTS_DATA } from "../lib/constants";
+import { Link } from "react-router-dom";
 
-const imageUrl =
-  "https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228";
-
-const fakeSongs = [
-  {
-    id: 1,
-    title: "giá như",
-    artist: "SOOBIN",
-    album: "giá như",
-    dateAdded: "2 weeks ago",
-    duration: "3:43",
-  },
-  {
-    id: 2,
-    title: "Từng Ngày Yêu Em",
-    artist: "buitruonglinh",
-    album: "Từng Ngày Như Mãi Mãi",
-    dateAdded: "2 weeks ago",
-    duration: "3:45",
-  },
-  {
-    id: 3,
-    title: "Nắng có mang em về",
-    artist: "Shartnuss, Tr.D, Phankeo",
-    album: "Luv",
-    dateAdded: "2 weeks ago",
-    duration: "4:14",
-  },
-];
+// Using the first playlist from constants
+const playlist = PLAYLISTS_DATA[0];
+const imageUrl = playlist.image;
 
 export default function PlaylistDetail() {
+  // In a real app, you would fetch the playlist based on the ID
+  // For now, we'll use the first playlist from constants
+
   const { data: dominantColor } = useColor(imageUrl, "hex", {
     crossOrigin: "anonymous",
   });
@@ -72,7 +51,7 @@ export default function PlaylistDetail() {
     : `linear-gradient(to bottom, #1f1f1f, #121212)`;
 
   return (
-    <div className="min-h-screen text-white relative overflow-hidden">
+    <div className="min-h-screen text-white relative overflow-hidden pb-24 md:pb-10">
       {/* --- Header Section --- */}
       <div className="relative z-0">
         <div
@@ -84,8 +63,8 @@ export default function PlaylistDetail() {
           style={{ background: darkGradient }}
         />
 
-        <div className="relative z-20 flex items-end gap-6 p-8">
-          <div className="w-60 h-60 rounded-sm overflow-hidden shadow-lg">
+        <div className="relative z-20 flex flex-col sm:flex-row items-center sm:items-end gap-4 sm:gap-6 p-4 sm:p-8">
+          <div className="w-40 h-40 sm:w-48 md:w-60 sm:h-48 md:h-60 rounded-sm overflow-hidden shadow-lg">
             <img
               src={imageUrl}
               alt="playlist"
@@ -93,25 +72,33 @@ export default function PlaylistDetail() {
               className="w-full h-full object-cover"
             />
           </div>
-          <div>
-            <p className="text-white text-xs mb-5">Playlist</p>
-            <h1 className="text-8xl font-bold mb-5">Hot Hits Vietnam</h1>
-            <div className="flex items-center justify-start">
-              <Button
-                variant="link"
-                className="p-0 font-bold text-sm cursor-pointer"
-              >
-                Spotify
-              </Button>
-              <span className="bg-neutral-400 rounded-full mx-2 w-1 h-1"></span>
-              <span className="text-neutral-400 text-sm">50 songs</span>
+          <div className="text-center sm:text-left">
+            <p className="text-white text-xs mb-2 sm:mb-5">Playlist</p>
+            <h1 className="text-3xl sm:text-5xl md:text-8xl font-bold mb-2 sm:mb-5">
+              {playlist.title}
+            </h1>
+            <div className="flex flex-col sm:flex-row items-center sm:items-start sm:justify-start">
+              <Link to="/collection">
+                <Button
+                  variant="link"
+                  className="p-0 font-bold text-sm cursor-pointer hover:underline"
+                >
+                  {playlist.creator}
+                </Button>
+              </Link>
+              <div className="flex items-center">
+                <span className="hidden sm:block bg-neutral-400 rounded-full mx-2 w-1 h-1"></span>
+                <span className="text-neutral-400 text-sm">
+                  {playlist.songCount} songs
+                </span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* --- Main Content Section --- */}
-      <div className="relative pt-6">
+      <div className="relative pt-4 sm:pt-6">
         <div
           className="absolute inset-0 z-0"
           style={{ background: lightGradientUnder }}
@@ -122,25 +109,65 @@ export default function PlaylistDetail() {
         />
 
         <div className="relative z-20">
-          <div className="flex items-center gap-4 px-8">
-            <Button className="bg-green-500 hover:bg-green-400 text-black font-bold text-lg rounded-full w-14 h-14 cursor-pointer transition-transform ease-in-out hover:scale-105 active:scale-95">
-              <Play className="size-6" />
+          <div className="flex items-center gap-2 sm:gap-4 px-4 sm:px-8 justify-center sm:justify-start">
+            <Button className="bg-green-500 hover:bg-green-400 text-black font-bold text-md sm:text-lg rounded-full w-10 h-10 sm:w-14 sm:h-14 cursor-pointer transition-transform ease-in-out hover:scale-105 active:scale-95">
+              <Play className="size-4 sm:size-6" />
             </Button>
             <Button
               variant="none"
               className="text-neutral-400 border-neutral-400 cursor-pointer transition-transform ease-in-out hover:scale-105 active:scale-95 hover:text-white"
             >
-              <Shuffle className="size-8" />
+              <Shuffle className="size-6 sm:size-8" />
             </Button>
             <Button
               variant="none"
               className="text-neutral-400 border-neutral-400 cursor-pointer transition-transform ease-in-out hover:scale-105 active:scale-95 hover:text-white"
             >
-              <Download className="size-8" />
+              <Download className="size-6 sm:size-8" />
             </Button>
           </div>
 
-          <ScrollArea className="mt-8 px-8">
+          {/* Mobile view for songs */}
+          <div className="sm:hidden mt-4 px-4">
+            {playlist.songs.map((song, index) => (
+              <div
+                key={song.id}
+                className="flex items-center justify-between py-2 border-b border-neutral-800 group hover:bg-neutral-800/50 rounded-md px-2"
+              >
+                <div className="flex items-center">
+                  <span className="text-neutral-400 w-6 text-sm group-hover:hidden">
+                    {index + 1}
+                  </span>
+                  <Play className="size-4 text-white hidden group-hover:block" />
+                  <div className="ml-2">
+                    <div className="flex items-center">
+                      <img
+                        src={song.image}
+                        alt="#"
+                        className="w-8 h-8 object-cover mr-2"
+                      />
+                      <div>
+                        <Link to={`/album/${song.id}`}>
+                          <p className="font-bold text-white text-sm">
+                            {song.title}
+                          </p>
+                        </Link>
+                        <Link to={`/artist/${song.id}`}>
+                          <p className="text-xs text-neutral-400">
+                            {song.artist}
+                          </p>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-neutral-400 text-xs">{song.duration}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop view for songs */}
+          <ScrollArea className="mt-8 px-8 hidden sm:block">
             <Table className="w-full">
               <TableHeader className="text-neutral-400">
                 <TableRow className="text-sm">
@@ -152,7 +179,7 @@ export default function PlaylistDetail() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {fakeSongs.map((song, index) => (
+                {playlist.songs.map((song, index) => (
                   <TableRow
                     key={song.id}
                     className="group hover:bg-neutral-800 transition-colors"
@@ -169,24 +196,35 @@ export default function PlaylistDetail() {
                     <TableCell className="flex items-center justify-start gap-3">
                       <div>
                         <img
-                          src={imageUrl}
+                          src={song.image}
                           alt="#"
                           className="w-10 h-10 object-cover"
                         />
                       </div>
                       <div>
-                        <p className="font-bold text-white">{song.title}</p>
-                        <p className="text-neutral-400 text-sm">
-                          {song.artist}
-                        </p>
+                        <Link to={`/album/${song.id}`}>
+                          <p className="font-bold text-white hover:underline">
+                            {song.title}
+                          </p>
+                        </Link>
+                        <Link to={`/artist/${song.id}`}>
+                          <p className="text-neutral-400 text-sm hover:underline hover:text-white">
+                            {song.artist}
+                          </p>
+                        </Link>
                       </div>
                     </TableCell>
 
                     <TableCell className="text-neutral-400">
-                      {song.album}
+                      <Link
+                        to={`/album/${song.id}`}
+                        className="hover:underline hover:text-white"
+                      >
+                        {song.title}
+                      </Link>
                     </TableCell>
                     <TableCell className="text-neutral-400">
-                      {song.dateAdded}
+                      {song.duration}
                     </TableCell>
                     <TableCell className="text-neutral-400">
                       {song.duration}
