@@ -1,103 +1,112 @@
 import {
-  Maximize,
-  MicVocal,
-  MonitorSpeaker,
-  Play,
+  Mic2,
+  Pause,
   Repeat,
-  Rows3,
-  Shuffle,
   SkipBack,
   SkipForward,
+  ListMusic,
   Volume2,
+  Heart,
+  Laptop2,
+  Shuffle,
+  Speaker,
+  Maximize,
+  Minimize,
 } from "lucide-react";
+import { usePlayingView } from "../hooks/usePlayingView";
 
-// --- Main PlayerBar Component ---
 export default function PlayerBar() {
+  const { isOpen, openPlayingView, isFullscreen, toggleFullscreen } =
+    usePlayingView();
+
   return (
-    <footer className="h-[90px] bg-black flex items-center justify-between px-4">
-      {/* Song Info */}
-      <div className="flex items-center gap-3 w-1/4">
-        <div className="w-14 h-14 bg-neutral-800 rounded-md overflow-hidden">
+    <footer className="h-[90px] flex items-center justify-between px-3">
+      <div className="flex items-center gap-3 w-[30%]">
+        <div className="w-14 h-14 bg-neutral-800 rounded overflow-hidden flex-shrink-0">
           <img
             src="https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228"
             alt="THERE'S NO ONE AT ALL"
             className="w-full h-full object-cover"
           />
         </div>
-        <div>
-          <p className="font-semibold text-white text-sm hover:underline cursor-pointer">
+        <div className="mx-3">
+          <p className="font-semibold text-white text-sm hover:underline cursor-pointer truncate">
             THERE'S NO ONE AT ALL
           </p>
-          <p className="text-xs text-neutral-400 hover:underline cursor-pointer">
+          <p className="text-xs text-neutral-400 hover:text-white hover:underline cursor-pointer truncate">
             Sơn Tùng M-TP
           </p>
         </div>
-        <div className="text-green-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            className="w-5 h-5"
-          >
-            <path
-              fillRule="evenodd"
-              d="M10 18a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm3.707-9.293a1 1 0 0 0-1.414-1.414L9 10.586 7.707 9.293a1 1 0 0 0-1.414 1.414l2 2a1 1 0 0 0 1.414 0l4-4z"
-              clipRule="evenodd"
-            />
-          </svg>
+        <div className="flex items-center gap-2">
+          <button className="text-[#1ed760] hover:text-white">
+            <Heart size={16} fill="#1ed760" />
+          </button>
         </div>
       </div>
 
-      {/* Player Controls */}
-      <div className="flex flex-col items-center gap-2 flex-1">
+      <div className="flex flex-col items-center gap-1 max-w-[45%] w-full">
         <div className="flex gap-4 items-center">
           <button className="text-neutral-400 hover:text-white cursor-pointer">
-            <Shuffle />
+            <Shuffle size={20} />
           </button>
           <button className="text-neutral-400 hover:text-white cursor-pointer">
-            <SkipBack />
+            <SkipBack size={20} />
           </button>
-          <button className="bg-white text-neutral-800 rounded-full p-2 hover:scale-105 transition-transform cursor-pointer">
-            <Play className="size-4" />
-          </button>
-          <button className="text-neutral-400 hover:text-white cursor-pointer">
-            <SkipForward />
+          <button className="bg-white rounded-full p-2 hover:scale-105 transition-transform cursor-pointer flex items-center justify-center">
+            <Pause className="size-4 text-black" />
           </button>
           <button className="text-neutral-400 hover:text-white cursor-pointer">
-            <Repeat />
+            <SkipForward size={20} />
+          </button>
+          <button className="text-neutral-400 hover:text-white cursor-pointer">
+            <Repeat size={20} />
           </button>
         </div>
-        <div className="flex items-center gap-2 w-full max-w-2xl">
-          <span className="text-xs text-neutral-400">1:02</span>
-          <div className="flex-1 h-1 bg-neutral-600 rounded-full group">
-            <div className="h-1 bg-white rounded-full w-[40%] group-hover:bg-green-500"></div>
+        <div className="flex items-center gap-2 w-full">
+          <span className="text-xs text-neutral-400 flex-shrink-0">1:02</span>
+          <div className="flex-1 h-1 bg-neutral-600 rounded-full group relative">
+            <div className="h-1 bg-white rounded-full w-[40%] group-hover:bg-[#1ed760] relative">
+              <div className="w-3 h-3 bg-white rounded-full absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100"></div>
+            </div>
           </div>
-          <span className="text-xs text-neutral-400">2:52</span>
+          <span className="text-xs text-neutral-400 flex-shrink-0">2:52</span>
         </div>
       </div>
 
-      {/* Volume & Other Controls */}
-      <div className="flex items-center gap-3 w-1/4 justify-end text-neutral-400">
-        <button className="hover:text-white cursor-pointer">
-          <MicVocal />
+      <div className="flex items-center gap-2 w-[30%] justify-end">
+        <button
+          onClick={() => openPlayingView()}
+          className="text-neutral-400 hover:text-white p-1"
+        >
+          <Speaker size={16} />
         </button>
-        <button className="hover:text-white cursor-pointer">
-          <Rows3 />
+        <button className="text-neutral-400 hover:text-white p-1">
+          <Mic2 size={16} />
         </button>
-        <button className="hover:text-white cursor-pointer">
-          <MonitorSpeaker />
+        <button className="text-neutral-400 hover:text-white p-1">
+          <ListMusic size={16} />
         </button>
-        <div className="flex items-center gap-2">
-          <button className="hover:text-white cursor-pointer">
-            <Volume2 />
+        <button className="text-neutral-400 hover:text-white p-1">
+          <Laptop2 size={16} />
+        </button>
+        <div className="flex items-center gap-1 mr-3">
+          <button className="text-neutral-400 hover:text-white p-1">
+            <Volume2 size={16} />
           </button>
-          <div className="w-24 h-1 bg-neutral-600 rounded-full group">
-            <div className="h-1 bg-white rounded-full w-full group-hover:bg-green-500"></div>
+          <div className="w-24 h-1 bg-neutral-600 rounded-full group relative">
+            <div className="h-1 bg-white rounded-full w-3/4 group-hover:bg-[#1ed760] relative">
+              <div className="w-3 h-3 bg-white rounded-full absolute right-0 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100"></div>
+            </div>
           </div>
         </div>
-        <button className="hover:text-white cursor-pointer">
-          <Maximize />
-        </button>
+        {isOpen && (
+          <button
+            onClick={toggleFullscreen}
+            className="text-neutral-400 hover:text-white p-1"
+          >
+            {isFullscreen ? <Minimize size={16} /> : <Maximize size={16} />}
+          </button>
+        )}
       </div>
     </footer>
   );
